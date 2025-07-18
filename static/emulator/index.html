@@ -2209,9 +2209,9 @@
      ]
     },
   ];
-  // Since simlib.wasm assumes global states, SimWrapper must in fact be a singleton.
-  // Thus, it's not wrong to store the instance in a global variable.
-  const SimWrapper = Comlink.wrap(new Worker("./lib/simwrapper.js?1687185326516"))
+  const SimWrapper = Comlink.wrap(
+    new Worker('./workers/simwrapper.worker.js', { type: 'classic' })
+  );
   let sim
   const canvas = document.getElementById('screen')
   const ctx = canvas.getContext('2d')

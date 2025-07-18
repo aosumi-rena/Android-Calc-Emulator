@@ -1,0 +1,17 @@
+{
+	"pages": [
+		{
+			"path": "pages/emulator/index",
+			"style": {
+				"navigationBarTitleText": "Emulator"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "Calculator Emulator",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}

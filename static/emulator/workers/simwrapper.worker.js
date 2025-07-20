@@ -1,13 +1,14 @@
 importScripts('fetch-file-shim.js');
-importScripts('../lib/simwrapper.js');
 importScripts('comlink.min.js');
-importScripts('comlink.min.m.js');
 ;(function(){
   const origImport = importScripts;
-  self.importScripts = function(...paths) {
+  self.importScripts = function (...paths) {
+    const base = self.location.href.replace(/\/?[^/]*$/, '/');
     const fixed = paths.map(p => {
-      if (/^simlib\.js/.test(p)) {
-        return `../lib/${p}`;
+      if (/simlib\.js/.test(p)) {
+        const [name, query] = p.split('?');
+        const abs = base.replace(/workers\/?$/, '') + 'lib/' + name.replace(/^\.\//, '');
+        return abs + (query ? '?' + query : '');
       }
       return p;
     });
@@ -15,4 +16,4 @@ importScripts('comlink.min.m.js');
   };
 })();
 
-importScripts('../lib/simwrapper.js?1687185326516');
+importScripts('../lib/simwrapper.js');

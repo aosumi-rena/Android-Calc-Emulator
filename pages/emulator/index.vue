@@ -22,11 +22,46 @@ export default {
   },
   onLoad() {
     // #ifdef APP-PLUS
-    this.url = plus.io.convertLocalFileSystemURL('_www/static/emulator/index.html')
+    if (plus.webview.assetLocalServer) {
+      plus.webview.assetLocalServer.start();
+      this.url = 'http://localhost:13131/static/emulator/index.html';
+    } else {
+      const root = plus.io.convertLocalFileSystemURL('_www');
+      this.url = root + 'static/emulator/index.html';
+    }
     // #endif
 
     // #ifdef H5
     this.url = '/static/emulator/index.html'
+    // #endif
+  },
+
+  onReady() {
+    // #ifdef APP-PLUS
+    const nativeWV = this.$refs.wv?.$getAppWebview
+      ? this.$refs.wv.$getAppWebview()
+      : this.$refs.wv;
+    if (nativeWV) {
+      if (nativeWV.overrideUrlLoading) {
+        ['http://*', 'https://*'].forEach(pattern => {
+          nativeWV.overrideUrlLoading({ mode: 'reject', match: pattern }, e => {
+            plus.runtime.openURL(e.url);
+            return true;
+          });
+        });
+      }
+      if (typeof nativeWV.evalJS === 'function') {
+        nativeWV.evalJS(`
+          (function(){
+            window.open = function(u){ plus.runtime.openURL(u); };
+            document.addEventListener('click', function(ev){
+              var a = ev.target.closest('a[target="_blank"]');
+              if(a){ ev.preventDefault(); plus.runtime.openURL(a.href); }
+            }, true);
+          })();
+        `);
+      }
+    }
     // #endif
   },
 
@@ -43,6 +78,10 @@ export default {
     })
     return true
   },
+
+  methods: {
+    handleMsg() {}
+  }
 
 }
 </script>

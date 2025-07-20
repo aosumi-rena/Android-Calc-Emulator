@@ -1,7 +1,7 @@
 (function () {
   if (location.protocol !== 'file:') return;
 
-  const root = plus.io.convertLocalFileSystemURL('_www/static/emulator/');
+  const root = plus.io.convertLocalFileSystemURL('_www') + 'static/emulator/';
   const origFetch = window.fetch;
 
   window.fetch = function (input, init = {}) {

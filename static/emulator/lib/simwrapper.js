@@ -437,7 +437,15 @@ const _sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 var _api = null;																// init the simulator API
 var IM;																			// init the emulator constants
 
-var Module = {}
+var Module = {
+        locateFile: function(path, prefix){
+                if (prefix.endsWith('lib/')) {
+                        return prefix + path;
+                }
+                return prefix.replace(/workers\/?$/, '') + 'lib/' + path;
+        }
+};
+
 Module.onRuntimeInitialized = async _ => {
 	if (_verbose) console.log("SimWrapper: Module.onRuntimeInitialized");
 	_api = {																	// fill in the API
@@ -482,7 +490,7 @@ Module.onRuntimeInitialized = async _ => {
 }
 
 importScripts("./comlink.min.js");
-importScripts('./simlib.js?1687185326516')
+importScripts('./simlib.js')
 
 class SimWrapper {
 	constructor() {

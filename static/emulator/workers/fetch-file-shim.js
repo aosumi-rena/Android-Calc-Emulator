@@ -6,8 +6,9 @@
     url.startsWith('./')    ||
     url.startsWith('../')   ||
     url.startsWith('/')     ||
-    url.startsWith('data/');
-
+    url.startsWith('data:') ||
+    url.startsWith('http://localhost');
+    
   function xhrFetch(url, responseType = 'arraybuffer') {
     return new Promise((res, rej) => {
       const xhr = new XMLHttpRequest();
@@ -31,8 +32,12 @@
           (init && init.responseType) ||
           (/\.(png|jpe?g|gif|svg)$/i.test(url) ? 'blob' : 'arraybuffer');
 
-    const body = await xhrFetch(url, respType);
+    const data = await xhrFetch(url, respType);
 
-    return new Response(body, { status: 200 });
+    const resp = new Response(data, { status: 200 });
+    if (!resp.arrayBuffer) {
+      resp.arrayBuffer = async () => data;
+    }
+    return resp;
   };
 })();

@@ -5,6 +5,7 @@
 <meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex, nofollow">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval';">
 <title>Calculator Emulator</title>
 <style>
     @font-face {
@@ -1417,6 +1418,16 @@
         </div>
     </section>
 </dialog>
+<dialog id="faceplateResizeZoomPanel" style="display: none; height: fit-content;">
+    <header class="slider-container" style="align-items: center">
+        <span><svg class="resize-zoom-icon" width="20" height="20"><use xlink:href="#faceplateResizeZoomIcon"/></svg></span>
+        <input type="range" id="faceplateResizeZoom" min="0.9" max="1.3" step="0.01" value="1" style="width: 100%">
+        <label for="faceplateResizeZoom" style="width: 3rem; user-select: none">
+            <span id="faceplateResizeZoomValue">1.00</span>
+        </label>
+        <button id="faceplateResizeZoomCloseBtn" class="close"></button>
+    </header>
+</dialog>
 <dialog id="customModelPanel" style="display: none;">
     <header>
         <h2 data-i18n-tag="CustomModelTitle">Add Custom Model</h2>
@@ -1514,6 +1525,10 @@
             <span><svg class="menu-icon"><use xlink:href="#screenshotIcon"/></svg></span>
             <span data-i18n-tag="MenuTakeS">Take Screenshot</span>
         </li>
+        <li class="menu-item" id="menuFaceplateResizeZoomBtn">
+            <span><svg class="menu-icon"><use xlink:href="#faceplateResizeZoomIcon"/></svg></span>
+            <span data-i18n-tag="MenuZoom">Zoom</span>
+        </li>
         <li class="menu-item" id="menuPopupDisplayBtn">
             <span><svg class="menu-icon"><use xlink:href="#popupDisplayIcon"/></svg></span>
             <span data-i18n-tag="MenuPopupD">Popup Display</span>
@@ -1536,8 +1551,9 @@
         </li>
     </ul>
     <div class="menu-info">
-        Originally Made With ♥ on <a href="https://github.com/CalcWorld/Web-Calc-Emulator" target="_blank">GitHub</a>
-        Android Version Created By <a href="https://github.com/aosumi-rena/Android-Calc-Emulator/" target="_blank">青澄玲奈</a>
+        Made With ♥ on <a href="https://github.com/CalcWorld/Web-Calc-Emulator" target="_blank">GitHub</a>
+        <br>
+        Android Version By <a href="https://github.com/aosumi-rena/Android-Calc-Emulator/" target="_blank">青澄玲奈</a>
         <br>
         <span id="build"></span>
     </div>
@@ -1571,6 +1587,12 @@
         <span>
             <svg style="display: none;"><symbol id="screenshotIcon" viewBox="0 0 1920 1920" stroke-width="105.6" stroke="#000000" fill="#000000"><path stroke="null" d="M262.5 1297.501v292.502c0 37.28 30.221 67.493 67.5 67.493h292.5V1792.5H330c-111.838 0-202.5-90.664-202.5-202.497v-292.502h135zm1530 0v292.502c0 111.833-90.664 202.497-202.497 202.497h-292.502v-135.004h292.502c37.28 0 67.493-30.213 67.493-67.493v-292.502H1792.5zM960 600c198.82 0 360.004 161.177 360.004 360S1158.82 1320.004 960 1320.004 600 1158.82 600 960s161.177-360 360-360zm630.003-472.5c111.833 0 202.497 90.663 202.497 202.5v292.5h-135.004V330c0-37.28-30.213-67.5-67.493-67.5h-292.502v-135h292.502zm-967.503 0v135H330c-37.28 0-67.5 30.221-67.5 67.5v292.5h-135V330c0-111.838 90.663-202.5 202.5-202.5h292.5z"/></symbol></svg>
             <svg class="hud-icon"><use xlink:href="#screenshotIcon"/></svg>
+        </span>
+    </a>
+    <a class="hud-btn" id="faceplateResizeZoomBtn" title="Faceplate Resize Zoom" href="javascript:" style="display: none;">
+        <span>
+            <svg style="display:none;"><symbol id="faceplateResizeZoomIcon" viewBox="2 2 20 20" fill="none" stroke="#000000" stroke-width="0.36"> <path fill-rule="evenodd" clip-rule="evenodd" d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11ZM11 7C11.5523 7 12 7.44772 12 8V10H14C14.5523 10 15 10.4477 15 11C15 11.5523 14.5523 12 14 12H12V14C12 14.5523 11.5523 15 11 15C10.4477 15 10 14.5523 10 14V12H8C7.44772 12 7 11.5523 7 11C7 10.4477 7.44772 10 8 10H10V8C10 7.44772 10.4477 7 11 7Z" fill="#000000"/> </symbol></svg>
+            <svg class="hud-icon"><use xlink:href="#faceplateResizeZoomIcon"/></svg>
         </span>
     </a>
     <a class="hud-btn" id="popupDisplayBtn" title="Popup Screen Display" href="javascript:" style="display: none;">
@@ -1644,7 +1666,9 @@
       "SettingMenuBICTitle": "Menu Bar Icon Customization",
       "MenuModelS": "Model Switch",
       "MenuTakeS": "Take Screenshot",
+      "MenuZoom": "Zoom",
       "MenuPopupD": "Popup Display",
+      "MenuZoom": "Zoom",
       "MenuStartK": "Start Keylog",
       "MenuAutoPK": "Auto Press Key",
       "MenuHexE": "Hex Editor",
@@ -1732,6 +1756,7 @@
       "SettingMenuBICTitle": "菜单栏图标自定义",
       "MenuModelS": "切换型号",
       "MenuTakeS": "屏幕截取",
+      "MenuZoom": "大小缩放",
       "MenuPopupD": "独立屏显",
       "MenuStartK": "按键记录",
       "MenuAutoPK": "自动按键",
@@ -1820,6 +1845,7 @@
       "SettingMenuBICTitle": "Tuỳ chỉnh biểu tượng thanh menu",
       "MenuModelS": "Đổi model",
       "MenuTakeS": "Chụp màn hình",
+      "MenuZoom": "Zoom",
       "MenuPopupD": "Cửa sổ bật",
       "MenuStartK": "Mở Keylog",
       "MenuAutoPK": "Tự động nhấn phím",
@@ -1949,7 +1975,7 @@
         menuBarIconCus: {
           className: 'menu-bar-icon-cus',
           storageKey: 'menuBarIconCus',
-          defaultValue: JSON.stringify(['screenshotBtn', 'keyLogBtn', 'hexEditorBtn', 'settingsBtn']),
+          defaultValue: JSON.stringify(['screenshotBtn', 'faceplateResizeZoomBtn', 'keyLogBtn', 'hexEditorBtn', 'settingsBtn']),
         },
         language: {
           className: 'language',
@@ -2068,6 +2094,15 @@
     getSettingValue(key) {
       return localStorage.getItem(key) || this.settings[key].defaultValue;
     }
+
+    getZoomScale(modelType) {
+      return parseFloat(localStorage.getItem('zoomScale_' + modelType) || '1');
+    }
+
+    setZoomScale(modelType, value) {
+      localStorage.setItem('zoomScale_' + modelType, value);
+    }
+
   }
 
   const emuSetting = new EmuSettings()
@@ -2342,6 +2377,8 @@
 
     document.getElementById('status').classList.add(modelType)
     document.getElementById('screen').classList.add(modelType)
+    faceplateResizeZoom.value = emuSetting.getZoomScale(modelType);
+    faceplateResizeZoomValue.innerText = parseFloat(faceplateResizeZoom.value).toFixed(2);
     handleResize();
 
     if (!customModelKey) {
@@ -2671,7 +2708,8 @@
         // TODO
         break;
     }
-    const scale = Math.min(document.documentElement.clientWidth / width, document.documentElement.clientHeight / height)
+    let zoom = faceplateResizeZoom ? parseFloat(faceplateResizeZoom.value) : 1
+    const scale = Math.min(document.documentElement.clientWidth / width, document.documentElement.clientHeight / height) * zoom
     container.style.width = width + 'px'
     container.style.height = height + 'px'
     container.style.transform = `translate(
@@ -3167,6 +3205,30 @@
 
   screenshotBtn.onclick = takeScreenshot
   window.takeScreenshot = takeScreenshot
+
+  const faceplateResizeZoomOninput = () => {
+    
+    faceplateResizeZoomValue.innerText = parseFloat(faceplateResizeZoom.value).toFixed(2);
+    emuSetting.setZoomScale(modelType, faceplateResizeZoom.value);
+    handleResize();
+  }
+
+  faceplateResizeZoom.oninput = faceplateResizeZoomOninput
+
+  const setFaceplateResizeZoom = async (value) => {
+    if (faceplateResizeZoom.disabled) return;
+    faceplateResizeZoom.value = value;
+    faceplateResizeZoomOninput();
+  }
+
+  faceplateResizeZoomCloseBtn.onclick = () => {
+    faceplateResizeZoomPanel.style.display = 'none';
+  }
+
+  faceplateResizeZoomBtn.onclick = () => {
+    if (!ramLoaded) return;
+    faceplateResizeZoomPanel.style.display = '';
+  }
 
   const pressKey = async logKey => {
     if (!logKeyToKiKo[logKey]) {
@@ -3705,6 +3767,11 @@
     screenshotBtn.click();
   }
 
+  menuFaceplateResizeZoomBtn.onclick = () => {
+    toggleMenu();
+    faceplateResizeZoomBtn.click();
+  }
+
   menuPopupDisplayBtn.onclick = () => {
     toggleMenu();
     popupDisplayBtn.click();
@@ -3776,9 +3843,22 @@
   hudIconCus(emuSetting.getSettingValue('menuBarIconCus'));
   i18n();
   init();
+  var hookExternal = function() {
+    window.open = function(u) { plus.runtime.openURL(u); };
+    document.addEventListener('click', function(ev) {
+      var a = ev.target.closest('a[href^="http"]');
+      if (a) { ev.preventDefault(); plus.runtime.openURL(a.href); }
+    }, true);
+  };
+  if (window.plus && window.plus.runtime) {
+    hookExternal();
+  } else {
+    document.addEventListener('plusready', hookExternal);
+  }
+  
 </script>
 <script>
-  const BUILD_ID = "1.0.3.DEV";
+  const BUILD_ID = "1.0.3.DEV.b";
   build.innerHTML = `(Build ${BUILD_ID})`;
 </script>
 </html>

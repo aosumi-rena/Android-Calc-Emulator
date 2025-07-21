@@ -13,7 +13,7 @@ This is a simple Android app version for the community-driven web calculator emu
 ## How To Use
 
 Compile the app using [HBuilderX](https://www.dcloud.io/hbuilderx.html) or any other compatible IDE. Then install the apk or ipa on your Android or iOS device.  
-<sub><sup>P.S. This is my first time creating an Android app, and chosen HBuilderX as my IDE (as its easier), there may be some missing files required for compiling using other IDE.</sup></sub>
+<sub>P.S. This is my first time creating an Android app, and chosen HBuilderX as my IDE (as its easier), there may be some missing files required for compiling using other IDE.</sub>
 
 Please note that there's no available models in this repository. You have to find and import them by yourself **before** compiling the app.  
 
@@ -21,9 +21,11 @@ Please note that there's no available models in this repository. You have to fin
 1. Open HBuilderX and select "New Project".
 2. Choose the "uni-app" template, fill in the project information, and create the project.
 3. Copy the files from this repository into the corresponding directories of the newly created project.
-4. In HBuilderX, select "Run" -> "Run to phone or emulator" -> "Run to Android app base" for debugging. Or corresponding options for iOS.   
-<sub><sub>P.S. I don't have the exact i18n for these options at the moment, choose the closest option</sub></sub>
-5. If everything works fine, select "Release" -> "Package as APK or IPA", and follow the prompts to complete the packaging.
+4. Follow the instructions in [Import Multiple Models](#import-multiple-models) to import calculator model files.
+5. In HBuilderX, select "Run" -> "Run to phone or emulator" -> "Run to Android app base" for debugging. Or corresponding options for iOS.  
+<sub>P.S. I don't have the exact i18n for these options at the moment, choose the closest option</sub>  
+
+6. If everything works fine, select "Release" -> "Package as APK or IPA", and follow the prompts to complete the packaging.
 
 ## Import Single Model
 

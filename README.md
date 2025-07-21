@@ -1,20 +1,29 @@
-# Web Calculator Emulator
+# Android Calculator Emulator
 
-A community-driven web calculator emulator.
+This is a simple Android app version for the community-driven web calculator emulator.
+
+[Visit the original version](https://github.com/CalcWorld/Web-Calc-Emulator/tree/master)
 
 **FOR STUDYING AND LEARNING PURPOSES ONLY. COMMERCIAL USE IS NOT ALLOWED.**
 
+---
+[English](https://github.com/aosumi-rena/Android-Calc-Emulator/blob/master/README.md) | [简体中文](https://github.com/aosumi-rena/Android-Calc-Emulator/blob/master/README_CHS.md)
+---
+
 ## How To Use
 
-In order to run the emulator, you have to set up a local HTTP server for static files, just using the tools you familiar with, and then open `index.html` in your browser. 
+Compile the app using [HBuilderX](https://www.dcloud.io/hbuilderx.html) or any other compatible IDE. Then install the apk or ipa on your Android or iOS device.  
+<sub><sup>P.S. This is my first time creating an Android app, and chosen HBuilderX as my IDE (as its easier), there may be some missing files required for compiling using other IDE.</sup></sub>
 
-If Python 3 is already installed, you can also choose to run with the following command to start local HTTP server:
+Please note that there's no available models in this repository. You have to find and import them by yourself **before** compiling the app.  
 
-```bash
-python ./start.py
-```
-
-Please note that there's no available models in this repository. You have to find and import them by yourself.
+### HBuilderX Process
+1. Open HBuilderX and select "New Project".
+2. Choose the "uni-app" template, fill in the project information, and create the project.
+3. Copy the files from this repository into the corresponding directories of the newly created project.
+4. In HBuilderX, select "Run" -> "Run to phone or emulator" -> "Run to Android app base" for debugging. Or corresponding options for iOS.   
+<sub><sub>P.S. I don't have the exact i18n for these options at the moment, choose the closest option</sub></sub>
+5. If everything works fine, select "Release" -> "Package as APK or IPA", and follow the prompts to complete the packaging.
 
 ## Import Single Model
 
@@ -36,15 +45,15 @@ If everything imported correctly, the model will be run and displayed in the mod
 
 ## Import Multiple Models
 
-If you want to import multiple models, follow the steps below to import them all at once.
+If you want to create "preset" models for the app, follow the steps below to import them all at once.
 
-1. Create a folder named `data` in the root directory of the repository.
+1. Create a folder named `data` at `root/static/emulator/`.
 
 2. Create folders for each model in the `data` folder, and name it with the model ID.
 
 3. Put the 3 files (`core.dat`, `face.svg` and `keylog.json`) in each folder you just created.
 
-4. Open `index.html` in any text editor, find the line begin with `const emulatorList = {};` 
+4. Open `root/static/emulator/index.html` in any text editor, find the line begin with `const emulatorList = {};` 
 
     Edit the content in the following format:
 

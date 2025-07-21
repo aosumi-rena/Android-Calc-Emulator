@@ -1,9 +1,22 @@
 <template>
-  <view :style="{paddingTop: safeTop + 'px', flex: 1}">
+  <view
+    :style="{
+      paddingTop: safeTop + 'px',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      width: '100vw',
+      height: '100vh',
+      overflow: 'hidden'
+    }"
+  >
     <web-view
       ref="wv"
       :src="url"
       @message="handleMsg"
+      :style="{width: '100vw', height: '100vh', overflow: 'hidden'}"
     ></web-view>
   </view>
 </template>
@@ -21,14 +34,30 @@ export default {
     }
   },
   onLoad() {
+    if (typeof document !== 'undefined') {
+      const setNoScroll = () => {
+        const html = document.documentElement;
+        const body = document.body;
+        const app = document.getElementById('app');
+        if (html) { html.style.height = '100vh'; html.style.overflow = 'hidden'; html.style.margin = '0'; html.style.padding = '0'; }
+        if (body) { body.style.height = '100vh'; body.style.overflow = 'hidden'; body.style.margin = '0'; body.style.padding = '0'; }
+        if (app) { app.style.height = '100vh'; app.style.overflow = 'hidden'; app.style.margin = '0'; app.style.padding = '0'; }
+      };
+      setNoScroll();
+    }
+
     // #ifdef APP-PLUS
+    let rootUrl = ''
     if (plus.webview.assetLocalServer) {
       plus.webview.assetLocalServer.start();
-      this.url = 'http://localhost:13131/static/emulator/index.html';
+      rootUrl = 'http://localhost:13131/_www/'
     } else {
-      const root = plus.io.convertLocalFileSystemURL('_www');
-      this.url = root + 'static/emulator/index.html';
+      rootUrl = plus.io.convertLocalFileSystemURL('_www/')
+      if (!/^file:\/\//.test(rootUrl)) {
+        rootUrl = 'file://' + rootUrl
+      }
     }
+    this.url = rootUrl + 'static/emulator/index.html'
     // #endif
 
     // #ifdef H5
@@ -43,11 +72,12 @@ export default {
       : this.$refs.wv;
     if (nativeWV) {
       if (nativeWV.overrideUrlLoading) {
-        ['http://*', 'https://*'].forEach(pattern => {
-          nativeWV.overrideUrlLoading({ mode: 'reject', match: pattern }, e => {
+        nativeWV.overrideUrlLoading({ mode: 'reject', match: '*' }, e => {
+          if (e.url && e.url.includes('github.com')) {
             plus.runtime.openURL(e.url);
             return true;
-          });
+          }
+          return false;
         });
       }
       if (typeof nativeWV.evalJS === 'function') {
@@ -87,5 +117,10 @@ export default {
 </script>
 
 <style scoped>
-view { flex: 1; }
+view {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  flex: 1;
+}
 </style>

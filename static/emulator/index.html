@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex, nofollow">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -89,9 +89,13 @@
         font-family: "ES04" !important;
     }
 
-    body {
+    html, body {
         margin: 0;
+        width: 100%;
+        height: 100%;
         overflow: hidden;
+        touch-action: none;
+        overscroll-behavior: none;
         background-color: #e0e1df;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
@@ -3858,7 +3862,7 @@
   
 </script>
 <script>
-  const BUILD_ID = "1.0.3.DEV.b";
+  const BUILD_ID = "REL-1.0.6";
   build.innerHTML = `(Build ${BUILD_ID})`;
 </script>
 </html>
